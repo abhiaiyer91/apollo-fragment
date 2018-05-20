@@ -9,8 +9,10 @@
   "dependencies": {
     "apollo-cache-inmemory": "^1.0.0",
     "apollo-client": "^2.3.1",
+    "apollo-fragment-react": "^0.1.0",
     "apollo-link": "^1.0.0",
     "apollo-link-state": "^0.4.1",
+    "apollo-link-state-fragment": "^0.1.0",
     "graphql": "^0.11.7",
     "graphql-tag": "^2.5.0",
     "react": "^16.0.0",

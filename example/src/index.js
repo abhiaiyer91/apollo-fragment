@@ -6,36 +6,25 @@ import { ApolloLink } from 'apollo-link';
 import { ApolloClient } from 'apollo-client';
 import { ApolloProvider } from 'react-apollo';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { toIdValue } from 'apollo-utilities';
 import { withClientState } from 'apollo-link-state';
+import {
+  fragmentCacheRedirect,
+  fragmentLinkState,
+} from 'apollo-link-state-fragment';
 import { link } from './graphql/link';
 import App from './App';
 
 const cache = new InMemoryCache({
   cacheRedirects: {
     Query: {
-      getFragment: (_, { id, __typename }) => {
-        return toIdValue(cache.config.dataIdFromObject({ __typename, id }));
-      },
-    },
-  },
-});
-
-const stateLink = withClientState({
-  cache,
-  resolvers: {
-    Query: {
-      getFragment: (_, { __typename, id }, { cache }) => {
-        const fragmentId = cache.config.dataIdFromObject({ __typename, id });
-        return cache.data.data[fragmentId];
-      },
+      ...fragmentCacheRedirect(),
     },
   },
 });
 
 const client = new ApolloClient({
   cache,
-  link: ApolloLink.from([stateLink, link]),
+  link: ApolloLink.from([fragmentLinkState(cache), link]),
 });
 
 render(

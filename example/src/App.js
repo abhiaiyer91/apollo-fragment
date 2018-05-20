@@ -60,7 +60,7 @@ export default class App extends Component {
                   This component is "watching" a fragment, it will render the
                   persons name once the list view renders
                 </p>
-                <p>{data && `Person Name: ${data.name}`}</p>
+                <p>{data && `Person Name: ${data.name || ''}`}</p>
               </section>
             );
           }}
