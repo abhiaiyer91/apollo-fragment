@@ -1,7 +1,7 @@
 {
-  "name": "apollo-link-state-fragment",
+  "name": "apollo-fragment-react",
   "version": "0.0.0",
-  "description": "A library to read fragments data in the apollo cache",
+  "description": "A Query component to connect React components to GraphQL fragments",
   "author": "Abnhi Aiyer <abhiaiyer91@gmail.com>",
   "license": "MIT",
   "main": "./lib/bundle.umd.js",
@@ -36,7 +36,7 @@
   },
   "bundlesize": [
     {
-      "name": "apollo-link-state-fragment",
+      "name": "apollo-fragment-react",
       "path": "./lib/bundle.min.js",
       "threshold": "1 Kb"
     }
@@ -54,12 +54,15 @@
     "bundlesize": "0.15.3",
     "codecov": "3.0.0",
     "danger": "1.2.0",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "graphql": "0.11.7",
     "graphql-tag": "2.5.0",
     "jest": "21.2.1",
     "lint-staged": "4.3.0",
     "pre-commit": "1.2.2",
     "prettier": "1.7.4",
+    "react": "^16.3.2",
     "rimraf": "2.6.1",
     "rollup": "0.56.x",
     "rollup-plugin-local-resolve": "1.0.x",
@@ -80,10 +83,14 @@
       "tsx",
       "js",
       "json"
-    ]
+    ],
+    "setupFiles": [
+   "<rootDir>/src/mocks/enzymeAdapter.ts"
+ ]
   },
   "dependencies": {
-    "apollo-utilities": "^1.0.12"
+    "apollo-utilities": "^1.0.12",
+    "react-apollo": "^2.1.4"
   },
   "lint-staged": {
     "*.ts*": [
