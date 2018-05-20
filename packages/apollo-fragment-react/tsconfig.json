@@ -17,5 +17,5 @@
     "target": "es5"
   },
   "include": ["./typings/**/*", "./src/**/*", "./test/**/*"],
-  "exclude": ["./node_modules", "./dist", "./lib"]
+  "exclude": ["./node_modules", "./dist", "./lib", "./src/mocks"]
 }

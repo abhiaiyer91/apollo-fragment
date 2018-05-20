@@ -1,15 +1,8 @@
 import { graphql, print } from 'graphql';
-import {
-  Operation,
-  GraphQLRequest,
-  ApolloLink,
-  FetchResult,
-  Observable,
-  // Observer,
-} from 'apollo-link';
-import { schema } from './mockSchema';
+import { ApolloLink, Observable } from 'apollo-link';
+import { schema } from './schema';
 
-export default new ApolloLink(operation => {
+export const link = new ApolloLink(operation => {
   return new Observable(observer => {
     const { query, operationName, variables } = operation;
     delay(300)
@@ -24,7 +17,7 @@ export default new ApolloLink(operation => {
   });
 });
 
-function delay(ms: number) {
+function delay(ms) {
   return new Promise(resolve => {
     setTimeout(() => {
       resolve();

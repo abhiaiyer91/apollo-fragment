@@ -1,26 +1,38 @@
-import { toIdValue } from "apollo-utilities";
-import { withClientState } from "apollo-link-state";
+import { toIdValue, IdValue } from 'apollo-utilities';
+import { ApolloLink } from 'apollo-link';
+import { withClientState } from 'apollo-link-state';
 import { ApolloCache } from 'apollo-cache';
 import { defaultDataIdFromObject } from 'apollo-cache-inmemory';
 
-export function fragmentCacheRedirect(dataIdFromObject = defaultDataIdFromObject) {
+export function fragmentCacheRedirect(
+  dataIdFromObject = defaultDataIdFromObject,
+) {
   return {
-    getFragment: (_, { id, __typename }) => {
+    getFragment: (_: any, { id, __typename }: GetFragmentType): IdValue => {
       return toIdValue(dataIdFromObject({ __typename, id }));
-    }
+    },
   };
 }
 
-export function fragmentLinkState(apolloCache: ApolloCache<any>) {
+type GetFragmentType = {
+  __typename: string;
+  id: string;
+};
+
+export function fragmentLinkState(apolloCache: ApolloCache<any>): ApolloLink {
   return withClientState({
     cache: apolloCache,
     resolvers: {
       Query: {
-        getFragment: (_, { __typename, id }, { cache }) => {
+        getFragment: (
+          _: any,
+          { __typename, id }: GetFragmentType,
+          { cache }: { cache: any },
+        ) => {
           const fragmentId = cache.config.dataIdFromObject({ __typename, id });
           return cache.data.data[fragmentId];
-        }
-      }
-    }
+        },
+      },
+    },
   });
 }
