@@ -4,6 +4,11 @@ import { withClientState } from 'apollo-link-state';
 import { ApolloCache } from 'apollo-cache';
 import { defaultDataIdFromObject } from 'apollo-cache-inmemory';
 
+type GetFragmentType = {
+  __typename: string;
+  id: string;
+};
+
 export function fragmentCacheRedirect(
   dataIdFromObject = defaultDataIdFromObject,
 ) {
@@ -13,11 +18,6 @@ export function fragmentCacheRedirect(
     },
   };
 }
-
-type GetFragmentType = {
-  __typename: string;
-  id: string;
-};
 
 export function fragmentLinkState(apolloCache: ApolloCache<any>): ApolloLink {
   return withClientState({

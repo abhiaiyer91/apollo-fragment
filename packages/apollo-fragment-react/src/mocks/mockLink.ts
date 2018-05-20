@@ -1,4 +1,4 @@
-import { graphql, print } from 'graphql';
+import { graphql, print, ExecutionResult } from 'graphql';
 import {
   Operation,
   GraphQLRequest,
@@ -10,13 +10,13 @@ import {
 import { schema } from './mockSchema';
 
 export default new ApolloLink(operation => {
-  return new Observable(observer => {
+  return new Observable<FetchResult>(observer => {
     const { query, operationName, variables } = operation;
     delay(300)
       .then(() =>
         graphql(schema, print(query), null, null, variables, operationName),
       )
-      .then(result => {
+      .then((result: ExecutionResult) => {
         observer.next(result);
         observer.complete();
       })

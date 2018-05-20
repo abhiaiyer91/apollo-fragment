@@ -10,7 +10,7 @@ import {
 import { schema } from './mockSchema';
 
 export default new ApolloLink(operation => {
-  return new Observable(observer => {
+  return new Observable<FetchResult>(observer => {
     const { query, operationName, variables } = operation;
     delay(300)
       .then(() =>
