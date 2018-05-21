@@ -64,7 +64,7 @@ const client = new ApolloClient({
 
 Once you have your client setup to make these kind of queries against the cache,
 we can now use the React integration: All we have to do is pass the id of the
-fragment you're looking for, the typename, and the selection set in a named
+fragment you're looking for, and the selection set in a named
 fragment.
 
 ```js
@@ -81,7 +81,7 @@ const fragment = `
 function App() {
   return (
     <section>
-      <ApolloFragment id="1" typename="Person" fragment={fragment}>
+      <ApolloFragment id="1" fragment={fragment}>
         {({ data }) => {
           return (
             <section>
