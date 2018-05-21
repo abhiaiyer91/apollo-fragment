@@ -62,7 +62,7 @@ describe('ApolloFragment component', () => {
       .then(() => {
         wrapper = mount(
           <ApolloProvider client={client}>
-            <ApolloFragment fragment={fragment} id="1" typename="Person">
+            <ApolloFragment fragment={fragment} id="1">
               {(result: any) => {
                 expect(result.data.id).toEqual('1');
                 expect(result.data.name).toEqual('John Smith');
