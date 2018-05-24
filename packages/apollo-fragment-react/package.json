@@ -46,7 +46,8 @@
     }
   ],
   "peerDependencies": {
-    "apollo-link-state": "0.4.1"
+    "apollo-link-state": "0.4.1",
+    "react-apollo": "2.1.4"
   },
   "devDependencies": {
     "@types/graphql": "0.11.5",
@@ -86,8 +87,7 @@
     "setupFiles": ["<rootDir>/src/mocks/enzymeAdapter.ts"]
   },
   "dependencies": {
-    "apollo-utilities": "^1.0.12",
-    "react-apollo": "^2.1.4"
+    "apollo-utilities": "^1.0.12"
   },
   "lint-staged": {
     "*.ts*": [
