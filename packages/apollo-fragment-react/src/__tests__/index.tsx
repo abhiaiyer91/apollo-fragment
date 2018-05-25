@@ -10,7 +10,7 @@ import {
   fragmentCacheRedirect,
   fragmentLinkState,
 } from '../../../apollo-link-state-fragment/src';
-import { ApolloFragment } from '../';
+import { ApolloFragment, withApolloFragment } from '../';
 
 describe('ApolloFragment component', () => {
   let wrapper: ReactWrapper<any, any> | null;
@@ -25,29 +25,58 @@ describe('ApolloFragment component', () => {
     }
   });
 
-  it('Should return Fragment Data', () => {
-    const cache = new InMemoryCache({
-      cacheRedirects: {
-        Query: {
-          ...fragmentCacheRedirect(),
-        },
+  const cache = new InMemoryCache({
+    cacheRedirects: {
+      Query: {
+        ...fragmentCacheRedirect(),
       },
-    });
+    },
+  });
 
-    const local = fragmentLinkState(cache);
+  const local = fragmentLinkState(cache);
 
-    const client = new ApolloClient({
-      cache,
-      link: ApolloLink.from([local, mockLink]),
-    });
+  const client = new ApolloClient({
+    cache,
+    link: ApolloLink.from([local, mockLink]),
+  });
 
-    const fragment = `
-      fragment fragmentFields on Person {
-        id
-        name
-      }
-    `;
+  const fragment = `
+    fragment fragmentFields on Person {
+      id
+      name
+    }
+  `;
 
+  it('Should return Fragment Data from HOC Component', () => {
+    return client
+      .query({
+        query: gql`
+          query peeps {
+            people {
+              id
+              name
+            }
+          }
+        `,
+      })
+      .then(() => {
+        let SomeComponent = function Foo(props) {
+          expect(props.data.id).toEqual('1');
+          expect(props.data.name).toEqual('John Smith');
+          return <p>hi</p>;
+        };
+
+        SomeComponent = withApolloFragment(fragment)(SomeComponent);
+
+        wrapper = mount(
+          <ApolloProvider client={client}>
+            <SomeComponent id="1" />
+          </ApolloProvider>,
+        );
+      });
+  });
+
+  it('Should return Fragment Data from Render Prop Component', () => {
     return client
       .query({
         query: gql`

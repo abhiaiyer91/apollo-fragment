@@ -32,7 +32,6 @@ describe('Basic Usage', () => {
     });
 
     return client.query({ query }).then(({ data }) => {
-      console.log(data);
       expect(data).toEqual(null);
     });
   });
