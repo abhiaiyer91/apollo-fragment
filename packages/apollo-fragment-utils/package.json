@@ -1,8 +1,7 @@
 {
-  "name": "apollo-fragment-react",
-  "version": "0.3.0",
-  "description":
-    "A Query component to connect React components to GraphQL fragments",
+  "name": "apollo-fragment-utils",
+  "version": "0.0.0",
+  "description": "A set of utils to help components to GraphQL fragments",
   "author": "Abnhi Aiyer <abhiaiyer91@gmail.com>",
   "license": "MIT",
   "main": "./lib/bundle.umd.js",
@@ -40,15 +39,12 @@
   },
   "bundlesize": [
     {
-      "name": "apollo-fragment-react",
+      "name": "apollo-fragment-utils",
       "path": "./lib/bundle.min.js",
       "threshold": "1 Kb"
     }
   ],
-  "peerDependencies": {
-    "apollo-link-state": "0.4.1",
-    "react-apollo": "2.1.9"
-  },
+  "peerDependencies": {},
   "devDependencies": {
     "@types/graphql": "0.11.5",
     "@types/jest": "22.1.x",
@@ -59,16 +55,11 @@
     "bundlesize": "0.15.3",
     "codecov": "3.0.0",
     "danger": "1.2.0",
-    "enzyme": "^3.3.0",
-    "enzyme-adapter-react-16": "^1.1.1",
     "graphql": "0.11.7",
     "graphql-tag": "2.5.0",
-    "jest": "21.2.1",
     "lint-staged": "4.3.0",
     "pre-commit": "1.2.2",
     "prettier": "1.7.4",
-    "react": "^16.3.2",
-    "react-apollo": "^2.1.9",
     "rimraf": "2.6.1",
     "rollup": "0.56.x",
     "rollup-plugin-local-resolve": "1.0.x",
@@ -78,17 +69,7 @@
     "typescript": "^2.9.2",
     "uglify-js": "3.1.5"
   },
-  "jest": {
-    "mapCoverage": true,
-    "transform": {
-      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
-    },
-    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
-    "moduleFileExtensions": ["ts", "tsx", "js", "json"],
-    "setupFiles": ["<rootDir>/src/mocks/enzymeAdapter.ts"]
-  },
   "dependencies": {
-    "apollo-fragment-utils": "^0.0.0",
     "apollo-utilities": "^1.0.12"
   },
   "lint-staged": {

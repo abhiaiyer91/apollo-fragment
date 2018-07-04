@@ -6,4 +6,3 @@ tsconfig.json
 tslint.json
 typings.d.ts
 example/
-__tests__/
