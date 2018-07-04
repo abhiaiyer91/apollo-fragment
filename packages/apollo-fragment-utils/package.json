@@ -1,6 +1,6 @@
 {
   "name": "apollo-fragment-utils",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A set of utils to help components to GraphQL fragments",
   "author": "Abnhi Aiyer <abhiaiyer91@gmail.com>",
   "license": "MIT",
@@ -44,7 +44,6 @@
       "threshold": "1 Kb"
     }
   ],
-  "peerDependencies": {},
   "devDependencies": {
     "@types/graphql": "0.11.5",
     "@types/jest": "22.1.x",

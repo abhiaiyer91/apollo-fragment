@@ -1,6 +1,6 @@
 {
   "name": "apollo-fragment-react",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description":
     "A Query component to connect React components to GraphQL fragments",
   "author": "Abnhi Aiyer <abhiaiyer91@gmail.com>",
@@ -88,7 +88,7 @@
     "setupFiles": ["<rootDir>/src/mocks/enzymeAdapter.ts"]
   },
   "dependencies": {
-    "apollo-fragment-utils": "^0.0.0",
+    "apollo-fragment-utils": "^0.1.0",
     "apollo-utilities": "^1.0.12"
   },
   "lint-staged": {

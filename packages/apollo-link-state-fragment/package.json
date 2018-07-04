@@ -1,6 +1,6 @@
 {
   "name": "apollo-link-state-fragment",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A library to read fragments data in the apollo cache",
   "author": "Abnhi Aiyer <abhiaiyer91@gmail.com>",
   "license": "MIT",
