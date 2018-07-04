@@ -8,7 +8,7 @@ import {
   fragmentCacheRedirect,
   fragmentLinkState,
 } from 'apollo-link-state-fragment';
-import ApolloFragment from '../../src';
+import ApolloFragment from '../../lib';
 import { link } from './graphql/link';
 
 Vue.config.productionTip = false;

@@ -1,7 +1,6 @@
-import Vue from 'vue';
 import CApolloFragment from './ApolloFragment';
 
-function install() {
+function install(Vue) {
   Vue.component('apollo-fragment', CApolloFragment);
   Vue.component('ApolloFragment', CApolloFragment);
 }

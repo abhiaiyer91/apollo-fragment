@@ -5,11 +5,7 @@ function isDataFilled(data) {
   return Object.keys(data).length > 0;
 }
 
-interface resultData {
-  getFragment: any;
-}
-
-export default {
+const CApolloFragment = {
   ...ApolloQuery,
   name: 'ApolloFragment',
   props: {
@@ -65,7 +61,7 @@ export default {
             error.graphQLErrors = errors;
           }
 
-          let data = {} as resultData;
+          let data = {};
 
           if (loading) {
             Object.assign(data, this.$_previousData, result.data);
@@ -100,3 +96,5 @@ export default {
     },
   },
 };
+
+export default CApolloFragment;
