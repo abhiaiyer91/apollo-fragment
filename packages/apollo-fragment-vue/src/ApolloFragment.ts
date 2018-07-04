@@ -1,33 +1,12 @@
 import { ApolloQuery } from 'vue-apollo';
-import gql from 'graphql-tag';
+import { getFragmentInfo, buildFragmentQuery } from 'apollo-fragment-utils';
 
 function isDataFilled(data) {
   return Object.keys(data).length > 0;
 }
 
-function getFragmentInfo(fragment) {
-  const fragmentAST = gql(fragment);
-  const fragmentDefinitions =
-    fragmentAST.definitions && fragmentAST.definitions[0];
-  const fragmentName = fragmentDefinitions && fragmentDefinitions.name.value;
-  const fragmentTypeName =
-    fragmentDefinitions && fragmentDefinitions.typeCondition.name.value;
-
-  return {
-    fragmentName,
-    fragmentTypeName,
-  };
-}
-
-function buildFragmentQuery({ fragment, fragmentName }) {
-  return gql`
-    query getFragment($id: ID, $__typename: String) {
-      getFragment(id: $id, __typename: $__typename) @client {
-        ...${fragmentName}
-      }
-    }
-    ${fragment}
-  `;
+interface resultData {
+  getFragment: any;
 }
 
 export default {
@@ -86,7 +65,7 @@ export default {
             error.graphQLErrors = errors;
           }
 
-          let data = {};
+          let data = {} as resultData;
 
           if (loading) {
             Object.assign(data, this.$_previousData, result.data);

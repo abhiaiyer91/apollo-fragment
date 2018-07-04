@@ -53,6 +53,7 @@
     "apollo-cache-inmemory": "^1.1.5",
     "apollo-client": "^2.2.0",
     "apollo-link": "^1.0.0",
+    "apollo-link-state": "^0.4.1",
     "browserify": "14.5.0",
     "bundlesize": "0.15.3",
     "codecov": "3.0.0",
@@ -69,7 +70,7 @@
     "rollup-plugin-sourcemaps": "0.4.x",
     "ts-jest": "21.1.4",
     "tslint": "5.8.0",
-    "typescript": "2.5.1",
+    "typescript": "^2.9.2",
     "uglify-js": "3.1.5"
   },
   "jest": {
