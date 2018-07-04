@@ -3,7 +3,7 @@
   "version": "0.4.0",
   "description":
     "A Query component to connect React components to GraphQL fragments",
-  "author": "Abnhi Aiyer <abhiaiyer91@gmail.com>",
+  "author": "Abhi Aiyer <abhiaiyer91@gmail.com>",
   "license": "MIT",
   "main": "./lib/bundle.umd.js",
   "module": "./lib/index.js",

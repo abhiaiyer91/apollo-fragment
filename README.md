@@ -1,6 +1,6 @@
 # Apollo Fragment
 
-Apollo Fragment holds two libraries aimed at connecting UI components to GraphQL
+Apollo Fragment holds libraries aimed at connecting UI components to GraphQL
 fragments in the Apollo Cache.
 
 `apollo-link-state-fragment` exposes a `cacheRedirect` and `withClientState`
@@ -10,13 +10,24 @@ configuration for querying fragments from the cache.
 connect your component to a fragment in cache and automatically watch all
 changes to it.
 
+`apollo-fragment-vue` exposes an `ApolloFragment` Vue component that will
+connect your component to a fragment in cache and automatically watch all
+changes to it.
+
 ## Installation
 
 It is simple to add to your current apollo client setup:
 
 ```bash
-# installing cache addons and react packahe
+# installing cache addons and react package
 yarn add apollo-link-state-fragment apollo-fragment-react -S
+```
+
+or
+
+```bash
+# installing cache addons and react package
+yarn add apollo-link-state-fragment apollo-fragment-vue -S
 ```
 
 ## Usage
@@ -63,9 +74,10 @@ const client = new ApolloClient({
 ```
 
 Once you have your client setup to make these kind of queries against the cache,
-we can now use the React integration: All we have to do is pass the id of the
-fragment you're looking for, and the selection set in a named
-fragment.
+we can now use the View layer integrations: All we have to do is pass the id of
+the fragment you're looking for, and the selection set in a named fragment.
+
+## React
 
 ```js
 import { ApolloFragment } from "apollo-fragment-react";
@@ -116,4 +128,59 @@ function App() {
 }
 ```
 
-In our example above, We have used the `ApolloFragment` query component to bind the current value of the fragment in cache. When a user clicks to load a list of people, our component subscribed to a user with id "1", will rerender and display the person's name.
+## Vue
+
+```html
+<template>
+  <div>
+    <p>This list is created by calling a GraphQL Fragment with ApolloFragment</p>
+    <ApolloFragment
+      :fragment="fragment"
+      :id="id"
+    >
+      <template slot-scope="{ result: { loading, error, data } }">
+        <div v-if="loading" class="loading apollo">Loading...</div>
+
+        <!-- Error -->
+        <div v-else-if="error" class="error apollo">An error occured</div>
+
+        <!-- Result -->
+        <div v-else-if="data" class="result apollo">
+
+          <p>ID: {{data.id}} - {{data.name}}</p>
+        </div>
+
+        <!-- No result -->
+        <div v-else class="no-result apollo">
+          <p>No result :(</p>
+        </div>
+      </template>
+    </ApolloFragment>
+  </div>
+</template>
+
+<script>
+const fragment = `
+  fragment fragmentFields on Person {
+    idea
+    name
+    __typename
+  }
+`;
+
+export default {
+  name: "Example",
+  data() {
+    return {
+      id: "1",
+      fragment,
+    };
+  }
+};
+</script>
+```
+
+In our examples above, We have used the `ApolloFragment` query component to bind
+the current value of the fragment in cache. When a user clicks to load a list of
+people, our component subscribed to a user with id "1", will rerender and
+display the person's name.

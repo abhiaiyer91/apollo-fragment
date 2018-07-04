@@ -2,7 +2,7 @@
   "name": "apollo-fragment-utils",
   "version": "0.1.0",
   "description": "A set of utils to help components to GraphQL fragments",
-  "author": "Abnhi Aiyer <abhiaiyer91@gmail.com>",
+  "author": "Abhi Aiyer <abhiaiyer91@gmail.com>",
   "license": "MIT",
   "main": "./lib/bundle.umd.js",
   "module": "./lib/index.js",

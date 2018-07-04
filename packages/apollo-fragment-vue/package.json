@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description":
     "A Query component to connect Vue components to GraphQL fragments",
-  "author": "Abnhi Aiyer <abhiaiyer91@gmail.com>",
+  "author": "Abhi Aiyer <abhiaiyer91@gmail.com>",
   "license": "MIT",
   "main": "./lib/bundle.umd.js",
   "module": "./lib/index.js",
@@ -60,7 +60,7 @@
     "codecov": "3.0.0",
     "danger": "1.2.0",
     "graphql": "0.11.7",
-    "graphql-tag": "2.5.0",
+    "graphql-tag": "2.9.2",
     "lint-staged": "4.3.0",
     "pre-commit": "1.2.2",
     "prettier": "1.7.4",
@@ -73,7 +73,7 @@
     "typescript": "^2.9.2",
     "uglify-js": "3.1.5",
     "vue": "^2.5.16",
-    "vue-apollo": "^3.0.0-beta.19"
+    "vue-apollo": "3.0.0-beta.19"
   },
   "dependencies": {
     "apollo-fragment-utils": "^0.1.0",
