@@ -14,6 +14,9 @@ changes to it.
 connect your component to a fragment in cache and automatically watch all
 changes to it.
 
+## Background
+Read about this library here: https://medium.com/open-graphql/fragment-driven-uis-with-apollo-17d933fa1cbe
+
 ## Installation
 
 It is simple to add to your current apollo client setup:
