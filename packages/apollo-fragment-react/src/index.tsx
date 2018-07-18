@@ -10,6 +10,7 @@ export function withApolloFragment(fragment: string) {
   return graphql<any, any>(query, {
     options: ({ id }) => {
       return {
+        fetchPolicy: 'cache-only',
         variables: {
           id,
           __typename: fragmentTypeName,
@@ -31,7 +32,11 @@ export function ApolloFragment({ children, fragment, id }: any) {
   const query: DocumentNode = buildFragmentQuery({ fragment, fragmentName });
 
   return (
-    <Query query={query} variables={{ id, __typename: fragmentTypeName }}>
+    <Query
+      fetchPolicy="cache-only"
+      query={query}
+      variables={{ id, __typename: fragmentTypeName }}
+    >
       {({ data, ...rest }: { data: any }) => {
         return children({ data: (data && data.getFragment) || {}, ...rest });
       }}
