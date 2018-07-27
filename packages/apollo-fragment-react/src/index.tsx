@@ -4,15 +4,18 @@ import { Query, graphql } from 'react-apollo';
 import { DocumentNode } from 'graphql';
 import { getFragmentInfo, buildFragmentQuery } from 'apollo-fragment-utils';
 
-export function withApolloFragment(fragment: string) {
+export function withApolloFragment(
+  fragment: string,
+  idPropName: string = 'id',
+) {
   const { fragmentTypeName, fragmentName } = getFragmentInfo(fragment);
   const query: DocumentNode = buildFragmentQuery({ fragment, fragmentName });
   return graphql<any, any>(query, {
-    options: ({ id }) => {
+    options: props => {
       return {
         fetchPolicy: 'cache-only',
         variables: {
-          id,
+          id: props[idPropName],
           __typename: fragmentTypeName,
         },
       };
