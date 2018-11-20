@@ -1,11 +1,5 @@
 # Apollo Fragment
 
-<p>
-  <a href="https://www.npmjs.com/package/apollo-fragment-react">
-    <img src="https://img.shields.io/npm/dt/apollo-fragment-react.svg" alt="Npm download">
-  </a>
-</p>
-
 Apollo Fragment holds libraries aimed at connecting UI components to GraphQL
 fragments in the Apollo Cache.
 
@@ -19,6 +13,20 @@ changes to it.
 `apollo-fragment-vue` exposes an `ApolloFragment` Vue component that will
 connect your component to a fragment in cache and automatically watch all
 changes to it.
+
+<p>
+  React
+  <a href="https://www.npmjs.com/package/apollo-fragment-react">
+    <img src="https://img.shields.io/npm/dt/apollo-fragment-react.svg" alt="Npm download">
+  </a>
+</p>
+
+<p>
+  Vue
+  <a href="https://www.npmjs.com/package/apollo-fragment-vue">
+    <img src="https://img.shields.io/npm/dt/apollo-fragment-vue.svg" alt="Npm download">
+  </a>
+</p>
 
 ## Background
 Read about this library here: https://medium.com/open-graphql/fragment-driven-uis-with-apollo-17d933fa1cbe
