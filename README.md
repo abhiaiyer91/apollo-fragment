@@ -14,6 +14,9 @@ changes to it.
 connect your component to a fragment in cache and automatically watch all
 changes to it.
 
+## Background
+Read about this library here: https://medium.com/open-graphql/fragment-driven-uis-with-apollo-17d933fa1cbe
+
 ## React
 <p>
   <a href="https://www.npmjs.com/package/apollo-fragment-react">
@@ -34,10 +37,6 @@ changes to it.
     <img src="https://img.shields.io/npm/dt/apollo-link-state-fragment.svg" alt="Npm download">
   </a>
 </p>
-
-
-## Background
-Read about this library here: https://medium.com/open-graphql/fragment-driven-uis-with-apollo-17d933fa1cbe
 
 ## Installation
 
