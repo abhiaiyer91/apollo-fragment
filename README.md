@@ -1,5 +1,11 @@
 # Apollo Fragment
 
+<p>
+  <a href="https://www.npmjs.com/package/apollo-fragment-react">
+    <img src="https://img.shields.io/npm/dt/apollo-fragment-react.svg" alt="Npm download">
+  </a>
+</p>
+
 Apollo Fragment holds libraries aimed at connecting UI components to GraphQL
 fragments in the Apollo Cache.
 
