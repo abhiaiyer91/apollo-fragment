@@ -76,6 +76,37 @@ describe('ApolloFragment component', () => {
       });
   });
 
+  it('Should return Fragment Data from HOC Component with custom "id"', () => {
+    return client
+      .query({
+        query: gql`
+          query peeps {
+            people {
+              id
+              name
+            }
+          }
+        `,
+      })
+      .then(() => {
+        let SomeComponent = function Foo(props) {
+          expect(props.data.id).toEqual('1');
+          expect(props.data.name).toEqual('John Smith');
+          return <p>hi</p>;
+        };
+
+        SomeComponent = withApolloFragment(fragment, 'fragmentId')(
+          SomeComponent,
+        );
+
+        wrapper = mount(
+          <ApolloProvider client={client}>
+            <SomeComponent fragmentId="1" />
+          </ApolloProvider>,
+        );
+      });
+  });
+
   it('Should return Fragment Data from Render Prop Component', () => {
     return client
       .query({

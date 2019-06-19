@@ -17,6 +17,27 @@ changes to it.
 ## Background
 Read about this library here: https://medium.com/open-graphql/fragment-driven-uis-with-apollo-17d933fa1cbe
 
+## React
+<p>
+  <a href="https://www.npmjs.com/package/apollo-fragment-react">
+    <img src="https://img.shields.io/npm/dt/apollo-fragment-react.svg" alt="Npm download">
+  </a>
+</p>
+
+## Vue
+<p>
+  <a href="https://www.npmjs.com/package/apollo-fragment-vue">
+    <img src="https://img.shields.io/npm/dt/apollo-fragment-vue.svg" alt="Npm download">
+  </a>
+</p>
+
+## Link State
+<p>
+  <a href="https://www.npmjs.com/package/apollo-link-state-fragment">
+    <img src="https://img.shields.io/npm/dt/apollo-link-state-fragment.svg" alt="Npm download">
+  </a>
+</p>
+
 ## Installation
 
 It is simple to add to your current apollo client setup:
