@@ -46,6 +46,7 @@ export default class App extends Component {
   }
   render() {
     const { showView } = this.state;
+
     return (
       <main>
         <header>

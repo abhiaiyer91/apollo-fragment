@@ -2,7 +2,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "bootstrap": "yarn i && lerna bootstrap",
+    "bootstrap": "yarn install && lerna bootstrap",
     "postbootstrap": "npm run build",
     "build": "lerna run -- build",
     "test": "lerna run -- test",
