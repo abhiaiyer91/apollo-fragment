@@ -103,7 +103,7 @@ the fragment you're looking for, and the selection set in a named fragment.
 
 ## React
 
-```js
+```jsx
 import { ApolloFragment } from "apollo-fragment-react";
 
 const fragment = `
@@ -130,6 +130,49 @@ function App() {
           );
         }}
       </ApolloFragment>
+
+      <button
+        onClick={function() {
+          client.query({
+            query: gql`
+              query peeps {
+                people {
+                  id
+                  name
+                }
+              }
+            `
+          });
+        }}
+      >
+        Click to load people
+      </button>
+    </section>
+  );
+}
+```
+### Same with useApolloFragment hook
+```jsx
+import { useApolloFragment } from "apollo-fragment-react";
+
+const fragment = `
+  fragment fragmentFields on Person {
+    idea
+    name
+    __typename
+  }
+`;
+
+function App() {
+  const { data } = useApolloFragment(fragment, '1');
+
+  return (
+    <section>
+      <p>
+        This component is "watching" a fragment in the cache, it will
+        render the persons name once the data enters
+      </p>
+      <p>{data && `Person Name: ${data.name || ""}`}</p>
 
       <button
         onClick={function() {
