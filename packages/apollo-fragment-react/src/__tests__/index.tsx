@@ -10,7 +10,7 @@ import {
   fragmentCacheRedirect,
   fragmentLinkState,
 } from '../../../apollo-link-state-fragment/src';
-import { ApolloFragment, withApolloFragment } from '../';
+import { ApolloFragment, withApolloFragment, useApolloFragment } from '../';
 
 describe('ApolloFragment component', () => {
   let wrapper: ReactWrapper<any, any> | null;
@@ -129,6 +129,34 @@ describe('ApolloFragment component', () => {
                 return <p>hi</p>;
               }}
             </ApolloFragment>
+          </ApolloProvider>,
+        );
+      });
+  });
+
+  it('Should return Fragment Data from React Hook', () => {
+    return client
+      .query({
+        query: gql`
+          query peeps {
+            people {
+              id
+              name
+            }
+          }
+        `,
+      })
+      .then(() => {
+        let SomeComponent = function Foo() {
+          const fragmentData = useApolloFragment(fragment, '1');
+          expect(fragmentData.data.id).toEqual('1');
+          expect(fragmentData.data.name).toEqual('John Smith');
+          return <p>hi</p>;
+        };
+
+        wrapper = mount(
+          <ApolloProvider client={client}>
+            <SomeComponent />
           </ApolloProvider>,
         );
       });

@@ -1,8 +1,26 @@
 import * as React from 'react';
 import gql from 'graphql-tag';
-import { Query, graphql } from 'react-apollo';
+import { Query, graphql, useQuery } from 'react-apollo';
 import { DocumentNode } from 'graphql';
 import { getFragmentInfo, buildFragmentQuery } from 'apollo-fragment-utils';
+
+export function useApolloFragment(fragment: string, id: string) {
+  const { fragmentTypeName, fragmentName } = getFragmentInfo(fragment);
+  const query: DocumentNode = buildFragmentQuery({ fragment, fragmentName });
+
+  const { data, ...rest } = useQuery(query, {
+    fetchPolicy: 'cache-only',
+    variables: {
+      id,
+      __typename: fragmentTypeName,
+    },
+  });
+
+  return {
+    data: data && data.getFragment,
+    ...rest,
+  };
+}
 
 export function withApolloFragment(
   fragment: string,
