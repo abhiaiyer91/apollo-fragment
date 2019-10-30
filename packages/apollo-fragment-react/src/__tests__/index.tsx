@@ -47,6 +47,11 @@ describe('ApolloFragment component', () => {
     }
   `;
 
+  type FragmentData = {
+    id: string;
+    name: string;
+  };
+
   it('Should return Fragment Data from HOC Component', () => {
     return client
       .query({
@@ -148,7 +153,7 @@ describe('ApolloFragment component', () => {
       })
       .then(() => {
         let SomeComponent = function Foo() {
-          const fragmentData = useApolloFragment(fragment, '1');
+          const fragmentData = useApolloFragment<FragmentData>(fragment, '1');
           expect(fragmentData.data.id).toEqual('1');
           expect(fragmentData.data.name).toEqual('John Smith');
           return <p>hi</p>;

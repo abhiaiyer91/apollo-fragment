@@ -4,11 +4,15 @@ import { Query, graphql, useQuery } from 'react-apollo';
 import { DocumentNode } from 'graphql';
 import { getFragmentInfo, buildFragmentQuery } from 'apollo-fragment-utils';
 
-export function useApolloFragment(fragment: string, id: string) {
+type FragmentQueryData<TData = any> = {
+  getFragment?: TData;
+};
+
+export function useApolloFragment<TData = any>(fragment: string, id: string) {
   const { fragmentTypeName, fragmentName } = getFragmentInfo(fragment);
   const query: DocumentNode = buildFragmentQuery({ fragment, fragmentName });
 
-  const { data, ...rest } = useQuery(query, {
+  const { data, ...rest } = useQuery<FragmentQueryData<TData>>(query, {
     fetchPolicy: 'cache-only',
     variables: {
       id,
