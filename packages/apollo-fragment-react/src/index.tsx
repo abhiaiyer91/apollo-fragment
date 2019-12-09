@@ -9,14 +9,26 @@ type FragmentQueryData<TData = any> = {
 };
 
 export function useApolloFragment<TData = any>(fragment: string, id: string) {
-  const { fragmentTypeName, fragmentName } = getFragmentInfo(fragment);
-  const query: DocumentNode = buildFragmentQuery({ fragment, fragmentName });
+  const { query, typename } = React.useMemo<{
+    query: DocumentNode;
+    typename: string;
+  }>(
+    () => {
+      const { fragmentTypeName, fragmentName } = getFragmentInfo(fragment);
+
+      return {
+        query: buildFragmentQuery({ fragment, fragmentName }),
+        typename: fragmentTypeName,
+      };
+    },
+    [fragment],
+  );
 
   const { data, ...rest } = useQuery<FragmentQueryData<TData>>(query, {
     fetchPolicy: 'cache-only',
     variables: {
       id,
-      __typename: fragmentTypeName,
+      __typename: typename,
     },
   });
 
