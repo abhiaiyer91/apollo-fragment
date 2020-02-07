@@ -1,39 +1,48 @@
 import * as React from 'react';
-import gql from 'graphql-tag';
-import { Query, graphql, useQuery } from 'react-apollo';
+import { Query, graphql, useQuery, withApollo } from 'react-apollo';
 import { DocumentNode } from 'graphql';
 import { getFragmentInfo, buildFragmentQuery } from 'apollo-fragment-utils';
+import ApolloClient from 'apollo-client';
+// compose-tiny doesn't have a default export, so we have to use `* as`
+// However, rollup creates a synthetic default module, so we have to to import it with `default as`.
+import * as _compose from 'compose-tiny';
+// @ts-ignore
+import { default as _rollupCompose } from 'compose-tiny';
+
+const compose = _rollupCompose || _compose;
 
 type FragmentQueryData<TData = any> = {
   getFragment?: TData;
 };
 
 export function useApolloFragment<TData = any>(fragment: string, id: string) {
-  const { query, typename } = React.useMemo<{
-    query: DocumentNode;
-    typename: string;
-  }>(
-    () => {
-      const { fragmentTypeName, fragmentName } = getFragmentInfo(fragment);
+  const fragmentQuery = React.useMemo(() => createFragmentQuery(fragment), [
+    fragment,
+  ]);
 
-      return {
-        query: buildFragmentQuery({ fragment, fragmentName }),
-        typename: fragmentTypeName,
-      };
+  const { data, client, ...rest } = useQuery<FragmentQueryData<TData>>(
+    fragmentQuery.query,
+    {
+      fetchPolicy: 'cache-only',
+      variables: {
+        id,
+        __typename: fragmentQuery.fragmentTypeName,
+      },
     },
-    [fragment],
   );
 
-  const { data, ...rest } = useQuery<FragmentQueryData<TData>>(query, {
-    fetchPolicy: 'cache-only',
-    variables: {
+  const fragmentData = data && data.getFragment;
+
+  if (!fragmentData) {
+    checkDataCompleteness({
+      fragmentQuery,
       id,
-      __typename: typename,
-    },
-  });
+      client,
+    });
+  }
 
   return {
-    data: data && data.getFragment,
+    data: fragmentData,
     ...rest,
   };
 }
@@ -42,41 +51,133 @@ export function withApolloFragment(
   fragment: string,
   idPropName: string = 'id',
 ) {
-  const { fragmentTypeName, fragmentName } = getFragmentInfo(fragment);
-  const query: DocumentNode = buildFragmentQuery({ fragment, fragmentName });
-  return graphql<any, any>(query, {
-    options: props => {
-      return {
-        fetchPolicy: 'cache-only',
-        variables: {
-          id: props[idPropName],
-          __typename: fragmentTypeName,
-        },
-      };
-    },
-    props: ({ data, ...rest }) => {
-      return {
-        data: data && data.getFragment,
-        ...rest,
-      };
-    },
-  });
+  const fragmentQuery = createFragmentQuery(fragment);
+  return compose(
+    withApollo,
+    graphql<any, any>(fragmentQuery.query, {
+      options: props => {
+        return {
+          fetchPolicy: 'cache-only',
+          variables: {
+            id: props[idPropName],
+            __typename: fragmentQuery.fragmentTypeName,
+          },
+        };
+      },
+      props: ({ data, ownProps: { client, ...ownProps }, ...rest }) => {
+        const fragmentData = data && data.getFragment;
+
+        if (!fragmentData) {
+          checkDataCompleteness({
+            fragmentQuery,
+            id: ownProps[idPropName],
+            client,
+          });
+        }
+
+        return {
+          data: fragmentData,
+          ownProps,
+          ...rest,
+        };
+      },
+    }),
+  );
 }
 
 export function ApolloFragment({ children, fragment, id }: any) {
-  const { fragmentTypeName, fragmentName } = getFragmentInfo(fragment);
-
-  const query: DocumentNode = buildFragmentQuery({ fragment, fragmentName });
+  const fragmentQuery = createFragmentQuery(fragment);
 
   return (
     <Query
       fetchPolicy="cache-only"
-      query={query}
-      variables={{ id, __typename: fragmentTypeName }}
+      query={fragmentQuery.query}
+      variables={{ id, __typename: fragmentQuery.fragmentTypeName }}
     >
-      {({ data, ...rest }: { data: any }) => {
-        return children({ data: (data && data.getFragment) || {}, ...rest });
+      {({
+        data,
+        client,
+        ...rest,
+      }: {
+        data: any;
+        client: ApolloClient<any>;
+      }) => {
+        const fragmentData = data && data.getFragment;
+
+        if (!fragmentData) {
+          checkDataCompleteness({
+            fragmentQuery,
+            id,
+            client,
+          });
+        }
+
+        return children({ data: fragmentData || {}, client, ...rest });
       }}
     </Query>
   );
+}
+
+type FragmentQuery = {
+  query: DocumentNode;
+  fragmentTypeName: string;
+  fragmentSource: string;
+};
+
+function createFragmentQuery(fragment: string): FragmentQuery {
+  const { fragmentTypeName, fragmentName } = getFragmentInfo(fragment);
+
+  return {
+    query: buildFragmentQuery({ fragment, fragmentName }),
+    fragmentTypeName: fragmentTypeName,
+    fragmentSource: fragment,
+  };
+}
+
+function checkDataCompleteness({
+  fragmentQuery,
+  id,
+  client,
+}: {
+  fragmentQuery: FragmentQuery;
+  id: string;
+  client: ApolloClient<any>;
+}): void {
+  // Only perform completeness check for non-production code
+  if (process.env.NODE_ENV === 'production') {
+    return;
+  }
+
+  const diff = client.cache.diff<any>({
+    query: fragmentQuery.query,
+    variables: {
+      id,
+      __typename: fragmentQuery.fragmentTypeName,
+    },
+    previousResult: undefined,
+    optimistic: true,
+  });
+
+  if (diff.complete === true) {
+    return;
+  }
+
+  const fragmentData = diff.result && diff.result.getFragment;
+  const noData = Object.keys(fragmentData || {}).length === 0;
+
+  if (noData) {
+    return;
+  }
+  const dataWithoutTypename = { ...fragmentData, __typename: undefined };
+
+  const errorMessage = `
+Unable to resolve fragment fields for ${fragmentQuery.fragmentTypeName}:${id}:
+${fragmentQuery.fragmentSource.trimRight()}
+
+Available data:
+${JSON.stringify(dataWithoutTypename, null, 2)}
+
+Make sure that the fields requested in the fragment are fetched by some query`;
+
+  console.error(errorMessage);
 }
