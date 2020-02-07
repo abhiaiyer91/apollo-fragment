@@ -102,9 +102,10 @@ describe('apollo-fragment-react core behaviour', () => {
           return <p>hi</p>;
         };
 
-        SomeComponent = withApolloFragment(fragment, 'fragmentId')(
-          SomeComponent,
-        );
+        SomeComponent = withApolloFragment(
+          fragment,
+          'fragmentId',
+        )(SomeComponent);
 
         wrapper = mount(
           <ApolloProvider client={client}>
@@ -142,6 +143,30 @@ describe('apollo-fragment-react core behaviour', () => {
       .then(() => {
         let SomeComponent = function Foo() {
           const fragmentData = useApolloFragment<FragmentData>(fragment, '1');
+          expect(fragmentData.data.id).toEqual('1');
+          expect(fragmentData.data.name).toEqual('John Smith');
+          return <p>hi</p>;
+        };
+
+        wrapper = mount(
+          <ApolloProvider client={client}>
+            <SomeComponent />
+          </ApolloProvider>,
+        );
+      });
+  });
+
+  it('Should return Fragment Data from React Hook for fragment AST', () => {
+    return client
+      .query({
+        query: PEOPLE_QUERY,
+      })
+      .then(() => {
+        let SomeComponent = function Foo() {
+          const fragmentData = useApolloFragment<FragmentData>(
+            gql(fragment),
+            '1',
+          );
           expect(fragmentData.data.id).toEqual('1');
           expect(fragmentData.data.name).toEqual('John Smith');
           return <p>hi</p>;
@@ -238,9 +263,10 @@ Make sure that the fields requested in the fragment are fetched by some query`;
           return <p>hi</p>;
         };
 
-        SomeComponent = withApolloFragment(fragment, 'fragmentId')(
-          SomeComponent,
-        );
+        SomeComponent = withApolloFragment(
+          fragment,
+          'fragmentId',
+        )(SomeComponent);
 
         wrapper = mountWithApollo(<SomeComponent fragmentId="1" />);
 
@@ -274,6 +300,27 @@ Make sure that the fields requested in the fragment are fetched by some query`;
       .then(() => {
         let SomeComponent = function Foo() {
           const fragmentData = useApolloFragment<FragmentData>(fragment, '1');
+          expect(fragmentData.data).toBeUndefined();
+          return <p>hi</p>;
+        };
+
+        wrapper = mountWithApollo(<SomeComponent />);
+
+        expect(consoleOutput[0]).toEqual(expectedErrorMessage);
+      });
+  });
+
+  it('Should log error when fragment data is incomplete for hook for fragment AST', () => {
+    return client
+      .query({
+        query: INCOMPLETE_QUERY,
+      })
+      .then(() => {
+        let SomeComponent = function Foo() {
+          const fragmentData = useApolloFragment<FragmentData>(
+            gql(fragment),
+            '1',
+          );
           expect(fragmentData.data).toBeUndefined();
           return <p>hi</p>;
         };

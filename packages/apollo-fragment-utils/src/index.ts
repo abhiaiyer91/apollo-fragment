@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 import { DocumentNode } from 'graphql';
 
-export function getFragmentInfo(fragment: string) {
-  const fragmentAST = gql(fragment);
+export function getFragmentInfo(fragment: string | DocumentNode) {
+  const fragmentAST = typeof fragment === `string` ? gql(fragment) : fragment;
   const fragmentDefinitions =
     fragmentAST.definitions && fragmentAST.definitions[0];
   const fragmentName = fragmentDefinitions && fragmentDefinitions.name.value;
@@ -16,7 +16,7 @@ export function getFragmentInfo(fragment: string) {
 }
 
 export type buildFragmentQueryType = {
-  fragment: string;
+  fragment: string | DocumentNode;
   fragmentName: string;
 };
 
