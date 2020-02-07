@@ -6,7 +6,7 @@ import {
   withApollo,
   QueryResult,
 } from 'react-apollo';
-import { DocumentNode } from 'graphql';
+import { DocumentNode, Location } from 'graphql';
 import { getFragmentInfo, buildFragmentQuery } from 'apollo-fragment-utils';
 import ApolloClient from 'apollo-client';
 // compose-tiny doesn't have a default export, so we have to use `* as`
@@ -21,6 +21,8 @@ type FragmentQueryData<TData = any> = {
   getFragment?: TData;
 };
 
+export type SupportedFragment = DocumentNode | string;
+
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export type ApolloFragmentResult<TData = any> = Omit<
@@ -31,7 +33,7 @@ export type ApolloFragmentResult<TData = any> = Omit<
 };
 
 export function useApolloFragment<TData = any>(
-  fragment: string,
+  fragment: SupportedFragment,
   id: string,
 ): ApolloFragmentResult<TData> {
   const fragmentQuery = React.useMemo(() => createFragmentQuery(fragment), [
@@ -67,7 +69,7 @@ export function useApolloFragment<TData = any>(
 }
 
 export function withApolloFragment(
-  fragment: string,
+  fragment: SupportedFragment,
   idPropName: string = 'id',
 ) {
   const fragmentQuery = createFragmentQuery(fragment);
@@ -111,7 +113,7 @@ type ApolloFragmentChildrenData<TData = any> = Omit<
 
 export type ApolloFragmentProps<TData = any> = {
   id: string;
-  fragment: string;
+  fragment: SupportedFragment;
   children: (
     fragmentQueryResult: ApolloFragmentChildrenData<TData>,
   ) => React.ReactElement;
@@ -153,13 +155,16 @@ type FragmentQuery = {
   fragmentSource: string;
 };
 
-function createFragmentQuery(fragment: string): FragmentQuery {
+function createFragmentQuery(fragment: SupportedFragment): FragmentQuery {
   const { fragmentTypeName, fragmentName } = getFragmentInfo(fragment);
 
   return {
     query: buildFragmentQuery({ fragment, fragmentName }),
     fragmentTypeName: fragmentTypeName,
-    fragmentSource: fragment,
+    fragmentSource:
+      typeof fragment === `string`
+        ? fragment
+        : (fragment.loc as Location).source.body,
   };
 }
 
