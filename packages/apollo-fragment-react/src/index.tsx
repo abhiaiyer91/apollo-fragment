@@ -1,5 +1,11 @@
 import * as React from 'react';
-import { Query, graphql, useQuery, withApollo } from 'react-apollo';
+import {
+  Query,
+  graphql,
+  useQuery,
+  withApollo,
+  QueryResult,
+} from 'react-apollo';
 import { DocumentNode } from 'graphql';
 import { getFragmentInfo, buildFragmentQuery } from 'apollo-fragment-utils';
 import ApolloClient from 'apollo-client';
@@ -15,7 +21,19 @@ type FragmentQueryData<TData = any> = {
   getFragment?: TData;
 };
 
-export function useApolloFragment<TData = any>(fragment: string, id: string) {
+type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+
+export type ApolloFragmentResult<TData = any> = Omit<
+  QueryResult<FragmentQueryData<TData>>,
+  'data'
+> & {
+  data: TData | undefined;
+};
+
+export function useApolloFragment<TData = any>(
+  fragment: string,
+  id: string,
+): ApolloFragmentResult<TData> {
   const fragmentQuery = React.useMemo(() => createFragmentQuery(fragment), [
     fragment,
   ]);
@@ -43,6 +61,7 @@ export function useApolloFragment<TData = any>(fragment: string, id: string) {
 
   return {
     data: fragmentData,
+    client,
     ...rest,
   };
 }
@@ -85,23 +104,33 @@ export function withApolloFragment(
   );
 }
 
-export function ApolloFragment({ children, fragment, id }: any) {
+type ApolloFragmentChildrenData<TData = any> = Omit<
+  ApolloFragmentResult<TData>,
+  'data'
+> & { data: ApolloFragmentResult<TData>['data'] | {} };
+
+export type ApolloFragmentProps<TData = any> = {
+  id: string;
+  fragment: string;
+  children: (
+    fragmentQueryResult: ApolloFragmentChildrenData<TData>,
+  ) => React.ReactElement;
+};
+
+export function ApolloFragment<TData = any>({
+  children,
+  fragment,
+  id,
+}: ApolloFragmentProps<TData>) {
   const fragmentQuery = createFragmentQuery(fragment);
 
   return (
-    <Query
+    <Query<FragmentQueryData<TData>>
       fetchPolicy="cache-only"
       query={fragmentQuery.query}
       variables={{ id, __typename: fragmentQuery.fragmentTypeName }}
     >
-      {({
-        data,
-        client,
-        ...rest,
-      }: {
-        data: any;
-        client: ApolloClient<any>;
-      }) => {
+      {({ data, client, ...rest }) => {
         const fragmentData = data && data.getFragment;
 
         if (!fragmentData) {
