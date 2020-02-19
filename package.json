@@ -59,7 +59,7 @@
     "@types/react": "^16.3.14",
     "@types/zen-observable": "0.5.3",
     "bundlesize": "0.15.3",
-    "codecov": "3.0.0",
+    "codecov": "3.6.5",
     "danger": "1.2.0",
     "lerna": "2.5.1",
     "lint-staged": "5.0.0",
