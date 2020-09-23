@@ -64,8 +64,8 @@ export const fragmentCacheConfig: Required<Pick<
       fields: {
         getFragment(_, { args, toReference }) {
           return toReference({
-            id: args?.id,
-            __typename: args?.__typename,
+            id: args ? args.id : undefined,
+            __typename: args ? args.__typename : undefined,
           });
         },
       },
