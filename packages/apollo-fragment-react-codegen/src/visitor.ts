@@ -20,6 +20,8 @@ export class ApolloFragmentReactVisitor extends ClientSideBaseVisitor<
   ApolloFragmentReactRawPluginConfig,
   ReactApolloPluginConfig
 > {
+  imports: Set<string>;
+
   constructor(
     schema: GraphQLSchema,
     fragments: LoadedFragment[],
@@ -35,6 +37,7 @@ export class ApolloFragmentReactVisitor extends ClientSideBaseVisitor<
     });
 
     this._documents = documents;
+    this.imports = new Set();
 
     autoBind(this);
   }
@@ -42,10 +45,15 @@ export class ApolloFragmentReactVisitor extends ClientSideBaseVisitor<
   public getImports(): string[] {
     const baseImports = super.getImports();
 
-    return [...baseImports, this.getApolloFragmentReactImport()];
+    if (!this.fragments) {
+      return baseImports;
+    }
+
+    return [...baseImports, ...this.imports];
   }
 
   protected _generateFragment(fragmentDocument: FragmentDefinitionNode) {
+    this.imports.add(this.getApolloFragmentReactImport());
     const hooks = this._buildHooks(fragmentDocument);
 
     return [hooks, ''].filter(a => a).join('\n');
