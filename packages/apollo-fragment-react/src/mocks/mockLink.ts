@@ -1,12 +1,5 @@
 import { graphql, print, ExecutionResult } from 'graphql';
-import {
-  Operation,
-  GraphQLRequest,
-  ApolloLink,
-  FetchResult,
-  Observable,
-  // Observer,
-} from 'apollo-link';
+import { ApolloLink, FetchResult, Observable } from '@apollo/client';
 import { schema } from './mockSchema';
 
 export default new ApolloLink(operation => {
