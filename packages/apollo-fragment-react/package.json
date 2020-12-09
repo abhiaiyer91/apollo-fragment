@@ -1,6 +1,6 @@
 {
   "name": "apollo-fragment-react",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "A Query component to connect React components to GraphQL fragments",
   "author": "Abhi Aiyer <abhiaiyer91@gmail.com>",
   "license": "MIT",
@@ -92,7 +92,7 @@
     ]
   },
   "dependencies": {
-    "apollo-fragment-utils": "^0.2.0",
+    "apollo-fragment-utils": "^0.2.1",
     "apollo-utilities": "^1.0.12",
     "compose-tiny": "^1.1.3"
   },

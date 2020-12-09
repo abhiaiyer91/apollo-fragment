@@ -1,6 +1,6 @@
 {
   "name": "apollo-fragment-vue",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A Query component to connect Vue components to GraphQL fragments",
   "author": "Abhi Aiyer <abhiaiyer91@gmail.com>",
   "license": "MIT",
@@ -72,7 +72,7 @@
     "vue-apollo": "3.0.0-beta.19"
   },
   "dependencies": {
-    "apollo-fragment-utils": "^0.2.0",
+    "apollo-fragment-utils": "^0.2.1",
     "apollo-utilities": "^1.0.12"
   },
   "lint-staged": {

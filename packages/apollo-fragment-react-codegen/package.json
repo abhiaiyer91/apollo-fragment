@@ -1,6 +1,6 @@
 {
   "name": "apollo-fragment-react-codegen",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "description": "A plugin for graphql-code-generator that allows to generate React hooks based on fragment definitions",
   "author": "Aleksei Ustiuzhanin <elanhant@gmail.com>",
   "license": "MIT",
