@@ -1,7 +1,7 @@
 {
   "name": "apollo-fragment-react",
   "version": "0.7.1",
-  "description": "A Query component to connect React components to GraphQL fragments",
+  "description": "A React hook to connect React components to GraphQL fragments in Apollo Client cache",
   "author": "Abhi Aiyer <abhiaiyer91@gmail.com>",
   "license": "MIT",
   "main": "./lib/bundle.umd.js",
@@ -42,14 +42,13 @@
     }
   ],
   "peerDependencies": {
-    "apollo-link-state": "0.4.1",
-    "react-apollo": "^3.0.0-beta.3"
+    "@apollo/client": "^3.5.6"
   },
   "devDependencies": {
     "@types/graphql": "0.11.5",
     "@types/jest": "22.1.x",
     "apollo-cache-inmemory": "^1.1.5",
-    "apollo-client": "^2.2.0",
+    "@apollo/client": "^3.5.6",
     "apollo-link": "^1.0.0",
     "browserify": "14.5.0",
     "bundlesize": "0.15.3",
@@ -64,7 +63,6 @@
     "pre-commit": "1.2.2",
     "prettier": "1.7.4",
     "react": "^16.8.6",
-    "react-apollo": "^3.0.0-beta.3",
     "react-dom": "^16.8.6",
     "rimraf": "2.6.1",
     "rollup": "0.56.x",

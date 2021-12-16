@@ -15,9 +15,11 @@ connect your component to a fragment in cache and automatically watch all
 changes to it.
 
 ## Background
+
 Read about this library here: https://medium.com/open-graphql/fragment-driven-uis-with-apollo-17d933fa1cbe
 
 ## React
+
 <p>
   <a href="https://www.npmjs.com/package/apollo-fragment-react">
     <img src="https://img.shields.io/npm/dt/apollo-fragment-react.svg" alt="Npm download">
@@ -25,6 +27,7 @@ Read about this library here: https://medium.com/open-graphql/fragment-driven-ui
 </p>
 
 ## Vue
+
 <p>
   <a href="https://www.npmjs.com/package/apollo-fragment-vue">
     <img src="https://img.shields.io/npm/dt/apollo-fragment-vue.svg" alt="Npm download">
@@ -32,6 +35,7 @@ Read about this library here: https://medium.com/open-graphql/fragment-driven-ui
 </p>
 
 ## Link State
+
 <p>
   <a href="https://www.npmjs.com/package/apollo-link-state-fragment">
     <img src="https://img.shields.io/npm/dt/apollo-link-state-fragment.svg" alt="Npm download">
@@ -66,9 +70,9 @@ import { fragmentCacheRedirect } from "apollo-link-state-fragment";
 const cache = new InMemoryCache({
   cacheRedirects: {
     Query: {
-      ...fragmentCacheRedirect()
-    }
-  }
+      ...fragmentCacheRedirect(),
+    },
+  },
 });
 ```
 
@@ -80,20 +84,20 @@ import { ApolloLink } from "apollo-link";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import {
   fragmentCacheRedirect,
-  fragmentLinkState
+  fragmentLinkState,
 } from "apollo-link-state-fragment";
 
 const cache = new InMemoryCache({
   cacheRedirects: {
     Query: {
-      ...fragmentCacheRedirect()
-    }
-  }
+      ...fragmentCacheRedirect(),
+    },
+  },
 });
 
 const client = new ApolloClient({
   link: ApolloLink.from([fragmentLinkState(cache), new HttpLink()]),
-  cache: new InMemoryCache()
+  cache: new InMemoryCache(),
 });
 ```
 
@@ -103,55 +107,6 @@ the fragment you're looking for, and the selection set in a named fragment.
 
 ## React
 
-```jsx
-import { ApolloFragment } from "apollo-fragment-react";
-
-const fragment = `
-  fragment fragmentFields on Person {
-    idea
-    name
-    __typename
-  }
-`;
-
-function App() {
-  return (
-    <section>
-      <ApolloFragment id="1" fragment={fragment}>
-        {({ data }) => {
-          return (
-            <section>
-              <p>
-                This component is "watching" a fragment in the cache, it will
-                render the persons name once the data enters
-              </p>
-              <p>{data && `Person Name: ${data.name || ""}`}</p>
-            </section>
-          );
-        }}
-      </ApolloFragment>
-
-      <button
-        onClick={function() {
-          client.query({
-            query: gql`
-              query peeps {
-                people {
-                  id
-                  name
-                }
-              }
-            `
-          });
-        }}
-      >
-        Click to load people
-      </button>
-    </section>
-  );
-}
-```
-### Same with useApolloFragment hook
 ```jsx
 import { useApolloFragment } from "apollo-fragment-react";
 
@@ -164,13 +119,13 @@ const fragment = `
 `;
 
 function App() {
-  const { data } = useApolloFragment(fragment, '1');
+  const { data } = useApolloFragment(fragment, "1");
 
   return (
     <section>
       <p>
-        This component is "watching" a fragment in the cache, it will
-        render the persons name once the data enters
+        This component is "watching" a fragment in the cache, it will render the
+        persons name once the data enters
       </p>
       <p>{data && `Person Name: ${data.name || ""}`}</p>
 
@@ -184,7 +139,7 @@ function App() {
                   name
                 }
               }
-            `
+            `,
           });
         }}
       >
@@ -200,11 +155,10 @@ function App() {
 ```html
 <template>
   <div>
-    <p>This list is created by calling a GraphQL Fragment with ApolloFragment</p>
-    <ApolloFragment
-      :fragment="fragment"
-      :id="id"
-    >
+    <p>
+      This list is created by calling a GraphQL Fragment with ApolloFragment
+    </p>
+    <ApolloFragment :fragment="fragment" :id="id">
       <template slot-scope="{ result: { loading, error, data } }">
         <div v-if="loading" class="loading apollo">Loading...</div>
 
@@ -213,7 +167,6 @@ function App() {
 
         <!-- Result -->
         <div v-else-if="data" class="result apollo">
-
           <p>ID: {{data.id}} - {{data.name}}</p>
         </div>
 
@@ -227,7 +180,7 @@ function App() {
 </template>
 
 <script>
-const fragment = `
+  const fragment = `
   fragment fragmentFields on Person {
     idea
     name
@@ -235,15 +188,15 @@ const fragment = `
   }
 `;
 
-export default {
-  name: "Example",
-  data() {
-    return {
-      id: "1",
-      fragment,
-    };
-  }
-};
+  export default {
+    name: "Example",
+    data() {
+      return {
+        id: "1",
+        fragment,
+      };
+    },
+  };
 </script>
 ```
 
