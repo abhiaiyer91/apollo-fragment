@@ -1,7 +1,11 @@
-import gql from 'graphql-tag';
-import { ApolloLink, execute, Observable } from 'apollo-link';
-import { ApolloClient } from 'apollo-client';
-import { InMemoryCache } from 'apollo-cache-inmemory';
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloLink,
+  execute,
+  Observable,
+  gql,
+} from '@apollo/client';
 import mockLink from '../mocks/mockLink';
 import { fragmentCacheRedirect, fragmentLinkState } from '../';
 
