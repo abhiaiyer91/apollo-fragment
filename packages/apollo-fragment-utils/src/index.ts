@@ -1,18 +1,29 @@
-import gql from 'graphql-tag';
-import { DocumentNode } from 'graphql';
+import { gql } from '@apollo/client/core';
+import { DocumentNode, Kind } from 'graphql';
 
 export function getFragmentInfo(fragment: string | DocumentNode) {
   const fragmentAST = typeof fragment === `string` ? gql(fragment) : fragment;
-  const fragmentDefinitions =
-    fragmentAST.definitions && fragmentAST.definitions[0];
-  const fragmentName = fragmentDefinitions && fragmentDefinitions.name.value;
-  const fragmentTypeName =
-    fragmentDefinitions && fragmentDefinitions.typeCondition.name.value;
+  // ensure we are working with the right kind of definition, otherwise throw warning
+  if (
+    fragmentAST.definitions &&
+    fragmentAST.definitions[0] &&
+    fragmentAST.definitions[0].kind === Kind.FRAGMENT_DEFINITION
+  ) {
+    const fragmentDefinitions =
+      fragmentAST.definitions && fragmentAST.definitions[0];
+    const fragmentName = fragmentDefinitions && fragmentDefinitions.name.value;
+    const fragmentTypeName =
+      fragmentDefinitions && fragmentDefinitions.typeCondition.name.value;
 
-  return {
-    fragmentName,
-    fragmentTypeName,
-  };
+    return {
+      fragmentName,
+      fragmentTypeName,
+    };
+  } else {
+    console.warn(
+      `Received fragment with definition kind: ${fragmentAST.definitions[0].kind} but ${Kind.FRAGMENT_DEFINITION} is required`,
+    );
+  }
 }
 
 export type buildFragmentQueryType = {
