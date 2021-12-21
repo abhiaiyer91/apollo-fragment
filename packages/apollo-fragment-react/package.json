@@ -41,23 +41,23 @@
       "threshold": "1 Kb"
     }
   ],
+  "dependencies": {
+    "@apollo/client": "^3.5.6",
+    "apollo-fragment-utils": "^0.2.1",
+    "compose-tiny": "^1.1.3"
+  },
   "peerDependencies": {
     "@apollo/client": "^3.5.6"
   },
   "devDependencies": {
-    "@types/graphql": "0.11.5",
     "@types/jest": "22.1.x",
-    "apollo-cache-inmemory": "^1.1.5",
-    "@apollo/client": "^3.5.6",
-    "apollo-link": "^1.0.0",
     "browserify": "14.5.0",
-    "bundlesize": "0.15.3",
-    "codecov": "3.0.0",
+    "bundlesize": "^0.18.1",
+    "codecov": "^3.8.2",
     "danger": "1.2.0",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
-    "graphql": "0.11.7",
-    "graphql-tag": "2.5.0",
+    "graphql": "16.0.1",
     "jest": "21.2.1",
     "lint-staged": "4.3.0",
     "pre-commit": "1.2.2",
@@ -88,11 +88,6 @@
     "setupFiles": [
       "<rootDir>/src/mocks/enzymeAdapter.ts"
     ]
-  },
-  "dependencies": {
-    "apollo-fragment-utils": "^0.2.1",
-    "apollo-utilities": "^1.0.12",
-    "compose-tiny": "^1.1.3"
   },
   "lint-staged": {
     "*.ts*": [
