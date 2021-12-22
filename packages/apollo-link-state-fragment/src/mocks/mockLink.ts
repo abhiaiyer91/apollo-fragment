@@ -1,12 +1,11 @@
-import { graphql, print } from 'graphql';
 import {
   Operation,
   GraphQLRequest,
   ApolloLink,
-  FetchResult,
+  FetchResult, // Observer,
   Observable,
-  // Observer,
-} from 'apollo-link';
+} from '@apollo/client';
+import { graphql, print } from 'graphql';
 import { schema } from './mockSchema';
 
 export default new ApolloLink(operation => {

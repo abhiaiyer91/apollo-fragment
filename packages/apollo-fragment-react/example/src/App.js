@@ -1,6 +1,6 @@
+import { gql } from '@apollo/client';
+import graphql from 'graphql';
 import React, { Component } from 'react';
-import { graphql } from 'react-apollo';
-import gql from 'graphql-tag';
 import { ApolloFragment } from 'apollo-fragment-react';
 
 const fragment = `

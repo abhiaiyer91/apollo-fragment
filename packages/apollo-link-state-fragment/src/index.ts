@@ -1,8 +1,10 @@
-import { toIdValue, IdValue } from 'apollo-utilities';
-import { ApolloLink } from 'apollo-link';
-import { withClientState } from 'apollo-link-state';
-import { ApolloCache } from 'apollo-cache';
-import { defaultDataIdFromObject } from 'apollo-cache-inmemory';
+import {
+  defaultDataIdFromObject,
+  ApolloLink,
+  ApolloCache,
+  ApolloClient,
+} from '@apollo/client';
+import { toIdValue, IdValue } from '@apollo/client/utilities';
 
 type GetFragmentType = {
   __typename: string;
@@ -20,7 +22,7 @@ export function fragmentCacheRedirect(
 }
 
 export function fragmentLinkState(apolloCache: ApolloCache<any>): ApolloLink {
-  return withClientState({
+  return new ApolloClient({
     cache: apolloCache,
     resolvers: {
       Query: {

@@ -2,10 +2,12 @@ import './index.css';
 
 import React from 'react';
 import { render } from 'react-dom';
-import { ApolloLink } from 'apollo-link';
-import { ApolloClient } from 'apollo-client';
-import { ApolloProvider } from 'react-apollo';
-import { InMemoryCache } from 'apollo-cache-inmemory';
+import {
+  ApolloClient,
+  ApolloProvider,
+  InMemoryCache,
+  ApolloLink,
+} from '@apollo/client';
 import {
   fragmentCacheRedirect,
   fragmentLinkState,
